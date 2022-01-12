@@ -35,6 +35,8 @@ class _QuizPageState extends State<QuizPage> {
 
   List<bool> answers = [false, true, true];
 
+  //TODO: Need to be create a Class for Question Text and Answer.
+
   int questionNumber = 0;
 
   @override
