@@ -30,9 +30,24 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
 
-
-  int questionNumber = 0;
+    setState(() {
+    if (userPickedAnswer == correctAnswer) {
+      scoreKeeper.add(Icon(
+        Icons.check,
+        color: Colors.green,
+      ));
+    } else {
+      scoreKeeper.add(Icon(
+        Icons.close,
+        color: Colors.red,
+      ));
+    }
+      quizBrain.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +61,8 @@ class _QuizPageState extends State<QuizPage> {
               padding: EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
-                  quizBrain.questionBank[questionNumber].questionText,
-                  style: TextStyle(
+                  quizBrain.getQuestionText(),
+                  style: const TextStyle(
                     fontSize: 25.0,
                     color: Colors.white,
                   ),
@@ -60,7 +75,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: EdgeInsets.all(15.0),
               child: TextButton(
                 style: TextButton.styleFrom(backgroundColor: Colors.green),
-                child: Text(
+                child: const Text(
                   'True',
                   style: TextStyle(
                     color: Colors.white,
@@ -68,18 +83,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 onPressed: () {
-                  bool correctAnswer =quizBrain.questionBank[questionNumber].questionAnswer;
-
-                  if (correctAnswer == true) {
-                    print('user got right answer');
-                  } else {
-                    print('user got wrong answer');
-                  }
-
-                  setState(() {
-                    questionNumber++;
-                  });
-                  print(questionNumber);
+                  checkAnswer(true);
                 },
               ),
             ),
@@ -89,7 +93,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: EdgeInsets.all(15.0),
               child: TextButton(
                 style: TextButton.styleFrom(backgroundColor: Colors.red),
-                child: Text(
+                child: const Text(
                   'False',
                   style: TextStyle(
                     color: Colors.white,
@@ -98,17 +102,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   //The user picked false.
-                  bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
-
-                  if (correctAnswer == false) {
-                    print('user got right answer');
-                  } else {
-                    print('user got wrong answer');
-                  }
-                  setState(() {
-                    questionNumber++;
-                  });
-                  print(questionNumber);
+                  checkAnswer(false);
                 },
               ),
             ),
@@ -120,5 +114,3 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-//13 question to be added
-//Starting from Encapsulation- Video No-97
